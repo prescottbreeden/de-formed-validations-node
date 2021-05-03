@@ -6,25 +6,48 @@
 
 1. Modular, Composable, and Scalable.
 2. Unopinionated and Customizable.
-3. Lightweight (1.6 kb gzipped).
-3. Easy to use and test.
+3. Lightweight.
+4. Easy to use and test.
 
 ## Install
+
 ```
 yarn add @de-formed/node-validations
 ```
+
 ```
 npm i @de-formed/node-validations
 ```
+
+## Validation API Cheatsheet
+
+- getAllErrors :: string -> all error messages in the validation state for a key
+- getError :: string -> first error message in the validation state for a given key
+- getFieldValid :: string -> true if all validations are passing for a key, else false
+- isValid :: boolean = true if all validations are passing across all keys
+- resetValidationState :: () -> removes all errors in the validation state
+- setValidationState :: ValidationState -> overwrites the existing validation state with a new one
+- validate :: (string, object) -> runs validation functions on key and returns true / false
+- validateAll :: (object) -> runs all validation functions against keys that exist in the object
+- validateAllIfTrue :: (object) -> only updates passing validations
+- validateIfTrue :: (string, object) -> only updates validation state if all pass
+- validationErrors :: [string] = an array of the first validation errors in state for all keys
+- validationState :: ValidationState = the current validation state
+
+See [docs](https://github.com/prescottbreeden/de-formed-validations-react/wiki/Docs) for more info.
+
 ## Basic Usage
 
 ### Step 1: Create a file to define your validations.
-```ts
-// PersonValidation.ts
-import { useValidation } from '@de-formed/react-validations';
+
+Validation Schemas are created by defining an object with keys that hold an array of validation rules. Each validation rule consists of the error message to provide if the rule fails, and a function that returns true or false.
+
+```js
+// PersonValidation.js
+import { Validation } from '@de-formed/node-validations';
 
 export const PersonValidation = () => {
-  return useValidation<Person>({
+  return Validation({
     firstName: [
       {
         error: 'First Name is required.',
@@ -55,112 +78,32 @@ export const PersonValidation = () => {
 };
 ```
 
-### Step 2: Plug in anywhere you like
-```tsx
+### Step 2: Use anywhere you like
+
+```js
 import { PersonValidation } from './PersonValidation';
 import { Request, Response } from 'express';
 
 const v = PersonValidation();
 
-app.post('/user', (req: Request, res: Response) =>
-  v.validate(req.body) ? res.status(200) : res.json(v.validationState));
-```
-
-***
-
-## Schema Design for the FP folks
-```ts
-import { useValidation } from "@de-formed/node-validations";
-import * as R from "ramda";
-import { emailRegex } from "../constants";
-import { PersonalInformation } from "../types";
-
-const stringIsNotEmpty = R.compose(
-  R.gt(R.__, 0),
-  R.length,
-  R.split(""),
-  R.trim,
-  R.ifElse(R.equals(undefined), R.defaultTo(""), R.identity)
+app.post('/person', (req: Request, res: Response) =>
+  v.validate(req.body) ? res.status(201) : res.json(v.validationState),
 );
-
-export const PersonalInformationValidation = () => {
-  return useValidation<PersonalInformation>({
-    firstName: [
-      {
-        error: "First Name is required.",
-        validation: R.compose(stringIsNotEmpty, R.prop("firstName")),
-      },
-    ],
-    lastName: [
-      {
-        error: "Last Name is required.",
-        validation: R.compose(stringIsNotEmpty, R.prop("lastName")),
-      },
-      {
-        error: "Last Name must be Ross.",
-        validation: R.ifElse(
-          R.compose(
-            R.equals("bob"),
-            R.toLower,
-            R.trim,
-            R.defaultTo(""),
-            R.prop<string, string>("firstName")
-          ),
-          R.compose(
-            R.equals("ross"),
-            R.toLower,
-            R.trim,
-            R.defaultTo(""),
-            R.prop<string, string>("lastName")
-          ),
-          R.always(true)
-        ),
-      },
-    ],
-    phoneNumber: [
-      {
-        error: "Phone Number must be 10 digits.",
-        validation: R.compose(
-          R.ifElse(R.gt(R.__, 0), R.equals(10), R.always(true)),
-          R.length,
-          R.split(""),
-          R.trim,
-          R.defaultTo(""),
-          R.prop<string, string>("phoneNumber")
-        ),
-      },
-    ],
-    email: [
-      {
-        error: "Email is required.",
-        validation: R.compose(stringIsNotEmpty, R.prop("email")),
-      },
-      {
-        error: "Must be a valid email.",
-        validation: R.compose(R.test(emailRegex), R.prop("email")),
-      },
-    ],
-  });
-};
 ```
 
-***
-
-## A Different, Functional, Event Driven Approach
-One of the biggest differences you will notice with @De-formed is it has no property or state for the concept of "touched". The problem with touched is most concisely put in that it obstructs event customization around validations. If you are building validations around the user's behavior, it also happens to be a completely useless property. The documentation for @De-formed guides you through setting up validations that only remove errors on change events but validate on blur and submit; however, you can customize the behavior any way you wish.
-
-Importantly, all validations are de-coupled from your form architecture allowing them to be executed, reused, and composed together in any context necessary. Ditch the form tag, define as many functions as you want in your schema with as many nested schemas as you like and then compose them all into a single form control and execute them on whichever events you choose. This provides you with a function-based, modular approach to design validation patterns that meet your requirements without the hassle of managing the validation data yourself.
+---
 
 ## Documentation
 
-Check out the [documentation](https://github.com/prescottbreeden/de-formed-validations-react/wiki/Docs).
+Check out the [documentation](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Docs).
 
 ## Examples
 
-More [examples](https://github.com/prescottbreeden/de-formed-validations-react/wiki/Examples) and CodeSandboxes.
+More [examples](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Examples) and CodeSandboxes.
 
 ## Coverage
-![coverage](https://github.com/prescottbreeden/de-formed-validations-react/blob/master/coverage.png?raw=true)
+
+![coverage](https://github.com/prescottbreeden/de-formed-validations-node/blob/master/coverage.png?raw=true)
 
 ## License
 

@@ -1,12 +1,8 @@
 import { ValidationSchema, ValidationState } from '../types';
 import { Validation } from '../index';
-import { __, compose, gt, length, trim, prop, defaultTo, equals, map, not } from 'ramda';
+import { __, compose, gt, length, trim, prop, equals, map, not } from 'ramda';
 
-const stringIsNotEmpty = compose(
-  gt(__, 0),
-  length as any,
-  trim
-);
+const stringIsNotEmpty = compose(gt(__, 0), length as any, trim);
 
 type TestSchema = {
   name: string;
@@ -20,17 +16,13 @@ const schema: ValidationSchema<TestSchema> = {
       error: 'Name is required.',
       validation: compose(
         stringIsNotEmpty,
-        defaultTo(''),
-        prop('name')
-      )
+        (x: string) => (x ? x : ''),
+        prop('name'),
+      ),
     },
     {
       error: 'Cannot be bob.',
-      validation: compose(
-        not,
-        equals('bob'),
-        prop('name'),
-      )
+      validation: compose(not, equals('bob'), prop('name')),
     },
     {
       error: 'Must be dingo.',
@@ -69,7 +61,6 @@ const failingState = {
   name: 'bob',
   age: 15,
 };
-
 
 describe('useValidation tests', () => {
   it('should be defined', () => {
@@ -127,7 +118,7 @@ describe('useValidation tests', () => {
     });
   });
 
-    describe('getFieldValid', () => {
+  describe('getFieldValid', () => {
     it('returns true by default', () => {
       const v = Validation(schema);
       const output = v.getFieldValid('name');
@@ -144,7 +135,7 @@ describe('useValidation tests', () => {
       const v = Validation(schema);
       const state = {
         ...defaultState,
-        name: ''
+        name: '',
       };
       v.validate('name', state);
       const output = v.getFieldValid('name');
@@ -286,25 +277,25 @@ describe('useValidation tests', () => {
     it('handles missing properties', () => {
       const wonkySchema = {
         ...schema,
-        'canSave': [
+        canSave: [
           {
             error: 'you cannot save',
             validation: (state: any) => !!state.name,
-          }
+          },
         ],
-      }
+      };
       const v = Validation(wonkySchema);
       v.validateAllIfTrue(failingState);
       expect(v.getError('canSave' as keyof TestSchema)).toBe('');
     });
   });
 
-    describe('validateIfTrue', () => {
+  describe('validateIfTrue', () => {
     it('returns a boolean if key exists', () => {
       const v = Validation(schema);
       const state = {
         ...defaultState,
-        name: 'bob'
+        name: 'bob',
       };
       const output = v.validateIfTrue('name', state);
       expect(typeof output).toBe('boolean');
@@ -315,7 +306,7 @@ describe('useValidation tests', () => {
       const name = 'balls' as keyof TestSchema;
       const state = {
         ...defaultState,
-        name: 'bob'
+        name: 'bob',
       };
       const output = v.validateIfTrue(name, state);
       expect(output).toBe(true);
@@ -341,11 +332,11 @@ describe('useValidation tests', () => {
       const v = Validation(schema);
       const state = {
         ...defaultState,
-        name: 'bob'
+        name: 'bob',
       };
       const state2 = {
         ...defaultState,
-        name: 'jack'
+        name: 'jack',
       };
       const validationState = {
         ...mockValidationState,
@@ -408,7 +399,4 @@ describe('useValidation tests', () => {
       expect(v1.validationState).toStrictEqual(v2.validationState);
     });
   });
-
 });
-
-

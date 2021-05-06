@@ -87,7 +87,7 @@ import { Request, Response } from 'express';
 const v = PersonValidation();
 
 app.post('/person', (req: Request, res: Response) =>
-  v.validate(req.body) ? res.status(201) : res.json(v.validationState),
+  v.validateAll(req.body) ? res.status(201) : res.json(v.validationState),
 );
 ```
 

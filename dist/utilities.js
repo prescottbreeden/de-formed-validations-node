@@ -11,6 +11,7 @@ function curry(fn) {
     };
 }
 exports.curry = curry;
-exports.compose = (...fns) => (...args) => fns.reduceRight((res, fn) => [fn.call(null, ...res)], args)[0];
+const compose = (...fns) => (...args) => fns.reduceRight((res, fn) => [fn.call(null, ...res)], args)[0];
+exports.compose = compose;
 exports.prop = curry((p, obj) => (obj ? obj[p] : undefined));
 //# sourceMappingURL=utilities.js.map

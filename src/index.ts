@@ -14,8 +14,6 @@ import {
   gatherValidationErrors,
 } from '@de-formed/base';
 
-export * from './types';
-
 // useCache :: none -> [f, g]
 const useCache = (initial: ValidationState) => {
   let value = initial;

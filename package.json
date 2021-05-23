@@ -1,7 +1,7 @@
 {
   "name": "@de-formed/node-validations",
-  "version": "0.0.2",
-  "description": "Modular, Scalable, Function-driven Validations",
+  "version": "0.0.3",
+  "description": "Modular, KISSable, Function-driven Validations",
   "main": "dist/index",
   "repository": "https://github.com/prescottbreeden/de-formed-node",
   "author": "prescottbreeden <prescott.breeden@gmail.com>",

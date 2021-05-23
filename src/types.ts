@@ -24,9 +24,9 @@ export interface ValidationObject<S> {
   validate: Validate<S>;
   validateAll: ValidateAll<S>;
   validateAllIfTrue: ValidateAllIfTrue<S>;
-  validateIfTrue: ValidateIfTrue<S>;
+  // validateIfTrue: ValidateIfTrue<S>;
   // validateOnBlur: ValidateOnBlur<S>;
-  // validateOnChange: ValidateOnChange<S>;
+  validateOnChange: ValidateOnChange<S>;
   validationErrors: string[];
   validationState: ValidationState;
 }

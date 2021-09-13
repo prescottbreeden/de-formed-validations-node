@@ -1,8 +1,7 @@
 import { ValidationSchema, ValidationState } from '../types';
 import { Validation } from '../index';
-import { __, compose, gt, length, trim, prop, equals, map, not } from 'ramda';
 
-const stringIsNotEmpty = compose(gt(__, 0), length as any, trim);
+const stringIsNotEmpty = (str: string) => str.trim().length > 0;
 
 type TestSchema = {
   name: string;
@@ -14,15 +13,11 @@ const schema: ValidationSchema<TestSchema> = {
   name: [
     {
       error: 'Name is required.',
-      validation: compose(
-        stringIsNotEmpty,
-        (x: string) => (x ? x : ''),
-        prop('name'),
-      ),
+      validation: ({ name} ) => stringIsNotEmpty(name),
     },
     {
       error: 'Cannot be bob.',
-      validation: compose(not, equals('bob'), prop('name')),
+      validation: ({ name }) => name !== 'bob',
     },
     {
       error: 'Must be dingo.',
@@ -76,25 +71,6 @@ describe('useValidation tests', () => {
     expect(typeof v.validateAll).toBe('function');
     expect(Array.isArray(v.validationErrors)).toBe(true);
     expect(typeof v.validationState).toBe('object');
-  });
-
-  it('returns all functions and read-only objects defined by class', () => {
-    const v = Validation(schema);
-    expect(v.validationState).toStrictEqual(mockValidationState);
-    expect(Object.keys(v)).toStrictEqual([
-      'getAllErrors',
-      'getError',
-      'getFieldValid',
-      'isValid',
-      'resetValidationState',
-      'setValidationState',
-      'validate',
-      'validateAll',
-      'validateAllIfTrue',
-      'validateIfTrue',
-      'validationErrors',
-      'validationState',
-    ]);
   });
 
   describe('getError', () => {
@@ -262,7 +238,7 @@ describe('useValidation tests', () => {
     it('handles nested validation reductions', () => {
       const data = [defaultState, defaultState, defaultState];
       const v = Validation(schema);
-      const output = map(v.validateAllIfTrue, data);
+      const output = data.map((s) => v.validateAllIfTrue(s));
       expect(output).toStrictEqual([true, true, true]);
     });
 

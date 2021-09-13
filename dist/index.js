@@ -13,17 +13,17 @@ const useCache = (initial) => {
     return [retrieveValue, setValue];
 };
 function Validation(validationSchema) {
-    const [getValidationState, setValidationState] = utilities_1.compose(useCache, base_1.createValidationState)(validationSchema);
+    const [getValidationState, setValidationState] = (0, utilities_1.compose)(useCache, base_1.createValidationState)(validationSchema);
     const resetValidationState = () => {
-        return utilities_1.compose(setValidationState, base_1.createValidationState)(validationSchema);
+        return (0, utilities_1.compose)(setValidationState, base_1.createValidationState)(validationSchema);
     };
-    const validate = base_1.createValidate(validationSchema, getValidationState, setValidationState);
-    const validateAll = base_1.createValidateAll(validationSchema, getValidationState, setValidationState);
-    const validateAllIfTrue = base_1.createValidateAllIfTrue(validationSchema, getValidationState, setValidationState);
-    const validateIfTrue = base_1.createValidateIfTrue(validationSchema, getValidationState, setValidationState);
-    const getError = base_1.createGetError(getValidationState);
-    const getAllErrors = base_1.createGetAllErrors(getValidationState);
-    const getFieldValid = base_1.createGetFieldValid(getValidationState);
+    const validate = (0, base_1.createValidate)(validationSchema, getValidationState, setValidationState);
+    const validateAll = (0, base_1.createValidateAll)(validationSchema, getValidationState, setValidationState);
+    const validateAllIfTrue = (0, base_1.createValidateAllIfTrue)(validationSchema, getValidationState, setValidationState);
+    const validateIfTrue = (0, base_1.createValidateIfTrue)(validationSchema, getValidationState, setValidationState);
+    const getError = (0, base_1.createGetError)(getValidationState);
+    const getAllErrors = (0, base_1.createGetAllErrors)(getValidationState);
+    const getFieldValid = (0, base_1.createGetFieldValid)(getValidationState);
     const validationObject = {
         getAllErrors,
         getError,
@@ -39,7 +39,7 @@ function Validation(validationSchema) {
         validationState: null,
     };
     Object.defineProperty(validationObject, 'isValid', {
-        get: () => base_1.calculateIsValid(getValidationState),
+        get: () => (0, base_1.calculateIsValid)(getValidationState),
         enumerable: true,
     });
     Object.defineProperty(validationObject, 'validationState', {
@@ -47,7 +47,7 @@ function Validation(validationSchema) {
         enumerable: true,
     });
     Object.defineProperty(validationObject, 'validationErrors', {
-        get: () => base_1.gatherValidationErrors(getValidationState),
+        get: () => (0, base_1.gatherValidationErrors)(getValidationState),
         enumerable: true,
     });
     return validationObject;

@@ -2,9 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Validation = void 0;
 const base_1 = require("@de-formed/base");
-const readValue = (state) => (typeof state === 'function' ? state() : state);
 const useCache = (initial) => {
-    let state = readValue(initial);
+    let state = initial;
     const setValidationState = (data) => {
         state = data;
         return data;

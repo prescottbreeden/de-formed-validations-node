@@ -1,4 +1,12 @@
-# @De-Formed / Node Validations (VanillaJS)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/35798153/157611790-96f35e8b-ee4f-44e4-b3c9-1864900a02f2.png" />
+</p>
+
+[![npm version](https://badge.fury.io/js/@de-formed%2Fnode-validations.svg)](https://badge.fury.io/js/@de-formed%2Fnode-validations)
+[![Known Vulnerabilities](https://snyk.io/test/github/prescottbreeden/de-formed-validations-node/badge.svg)](https://snyk.io/test/github/prescottbreeden/de-formed-validations-node)
+![example workflow](https://github.com/prescottbreeden/de-formed-validations-node/actions/workflows/main.yml/badge.svg)
+[![codecov](https://codecov.io/gh/prescottbreeden/de-formed-validations-node/branch/main/graph/badge.svg?token=7MPA6NZZDD)](https://codecov.io/gh/prescottbreeden/de-formed-validations-node)
+![size](https://img.shields.io/bundlephobia/minzip/@de-formed/base)
 
 @De-Formed Validations offers a robust and unopinionated API to customize form and data validations. With only a handful of properties to learn, @de-formed maintains its own internal state with simple function calls so that you can design your architecture the way you want to.
 

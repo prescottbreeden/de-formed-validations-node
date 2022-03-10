@@ -1,30 +1,116 @@
 import {
+  calculateIsValid,
+  createGetAllErrors,
+  createGetError,
+  createGetFieldValid,
+  createResetValidationState,
+  createValidate,
+  createValidateAll,
+  createValidateAllIfTrue,
+  createValidateIfTrue,
+  createValidateOnBlur,
+  createValidateOnChange,
+  createValidationState,
+  gatherValidationErrors,
+  ValidationObject,
   ValidationSchema,
   ValidationState,
-  createValidationState,
-  BaseValidation,
 } from '@de-formed/base';
 
-// useCache :: none -> [f, g]
-const useCache = (initial: ValidationState) => {
-  let value = initial;
+// Use whatever kind of statemanagement you like, or use something simple like this
+const useCache = (
+  initial: ValidationState,
+): [() => ValidationState, (data: ValidationState) => ValidationState] => {
+  let state = initial;
   const setValidationState = (data: ValidationState) => {
-    value = data;
+    state = data;
     return data;
-  }
-  const getValidationState = () => value;
-  return { getValidationState, setValidationState };
+  };
+  const getValidationState = () => state;
+  return [getValidationState, setValidationState];
 };
 
 export function Validation<S>(validationSchema: ValidationSchema<S>) {
-  const { getValidationState, setValidationState } = useCache(
-    createValidationState(validationSchema)
+  const [getValidationState, setValidationState] = useCache(
+    createValidationState(validationSchema),
   );
 
-  return new BaseValidation(
+  const resetValidationState = createResetValidationState(
+    validationSchema,
+    setValidationState,
+  );
+
+  const validate = createValidate(
     validationSchema,
     getValidationState,
-    setValidationState
-  )
-}
+    setValidationState,
+  );
 
+  const validateAll = createValidateAll(
+    validationSchema,
+    getValidationState,
+    setValidationState,
+  );
+
+  const validateAllIfTrue = createValidateAllIfTrue(
+    validationSchema,
+    getValidationState,
+    setValidationState,
+  );
+
+  const validateIfTrue = createValidateIfTrue(
+    validationSchema,
+    getValidationState,
+    setValidationState,
+  );
+
+  const validateOnBlur = createValidateOnBlur(
+    validationSchema,
+    getValidationState,
+    setValidationState,
+  );
+
+  const validateOnChange = createValidateOnChange(
+    validationSchema,
+    getValidationState,
+    setValidationState,
+  );
+
+  const getError = createGetError<S>(getValidationState);
+  const getAllErrors = createGetAllErrors<S>(getValidationState);
+  const getFieldValid = createGetFieldValid<S>(getValidationState);
+
+  const validationObject: ValidationObject<S> = {
+    getAllErrors,
+    getError,
+    getFieldValid,
+    isValid: true,
+    resetValidationState,
+    setValidationState,
+    validate,
+    validateAll,
+    validateAllIfTrue,
+    validateIfTrue,
+    validateOnBlur,
+    validateOnChange,
+    validationErrors: [],
+    validationState: {},
+  };
+
+  Object.defineProperty(validationObject, 'isValid', {
+    get: () => calculateIsValid(getValidationState),
+    enumerable: true,
+  });
+
+  Object.defineProperty(validationObject, 'validationState', {
+    get: getValidationState,
+    enumerable: true,
+  });
+
+  Object.defineProperty(validationObject, 'validationErrors', {
+    get: () => gatherValidationErrors(getValidationState),
+    enumerable: true,
+  });
+
+  return validationObject;
+}

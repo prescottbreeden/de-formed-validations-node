@@ -1,5 +1,5 @@
-import { ValidationSchema, ValidationState } from '../types';
-import { Validation } from '../index';
+import { ValidationSchema, ValidationState } from '@de-formed/base';
+import { Validation } from '../src';
 
 const stringIsNotEmpty = (str: string) => str.trim().length > 0;
 
@@ -13,7 +13,7 @@ const schema: ValidationSchema<TestSchema> = {
   name: [
     {
       error: 'Name is required.',
-      validation: ({ name} ) => stringIsNotEmpty(name),
+      validation: ({ name }) => stringIsNotEmpty(name),
     },
     {
       error: 'Cannot be bob.',

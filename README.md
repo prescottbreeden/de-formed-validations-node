@@ -6,16 +6,16 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/prescottbreeden/de-formed-validations-node/badge.svg)](https://snyk.io/test/github/prescottbreeden/de-formed-validations-node)
 ![example workflow](https://github.com/prescottbreeden/de-formed-validations-node/actions/workflows/main.yml/badge.svg)
 [![codecov](https://codecov.io/gh/prescottbreeden/de-formed-validations-node/branch/main/graph/badge.svg?token=7MPA6NZZDD)](https://codecov.io/gh/prescottbreeden/de-formed-validations-node)
-![size](https://img.shields.io/bundlephobia/minzip/@de-formed/base)
+![size](https://img.shields.io/bundlephobia/minzip/@de-formed/node-validations)
 
 @De-Formed Validations offers a robust and unopinionated API to customize form and data validations. With only a handful of properties to learn, @de-formed maintains its own internal state with simple function calls so that you can design your architecture the way you want to.
 
 ## Why Use De-Formed?
 
-1. Modular, Composable, and Scalable.
-2. Unopinionated and Customizable.
-3. Lightweight.
-4. Easy to use and test.
+1. Modular, Composable, and Scalable
+2. Unopinionated and Customizable to the Moon 🚀
+3. Lightweight and Fast
+4. Easy to Use, Easy to Test
 
 ## Install
 
@@ -84,6 +84,10 @@ app.post('/person', (req: Request, res: Response) =>
 
 ---
 
+## Getting Started
+
+Visit our wiki to get a step by step [walkthrough](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Getting-Started) of how to customize De-Formed to the moon 🚀
+
 ## Documentation
 
 Check out the [documentation](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Docs).
@@ -91,10 +95,6 @@ Check out the [documentation](https://github.com/prescottbreeden/de-formed-valid
 ## Examples
 
 More [examples](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Examples) and CodeSandboxes.
-
-## Coverage
-
-![coverage](https://github.com/prescottbreeden/de-formed-validations-node/blob/master/coverage.png?raw=true)
 
 ## License
 

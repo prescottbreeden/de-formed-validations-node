@@ -86,11 +86,11 @@ app.post('/person', (req: Request, res: Response) =>
 
 ## Getting Started
 
-Visit our wiki to get a step by step [walkthrough](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Getting-Started) of how to customize De-Formed to the moon 🚀
+Visit the wiki to get a step by step [walkthrough](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Getting-Started) of how to customize De-Formed to the moon 🚀
 
 ## Documentation
 
-Check out the [documentation](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Docs).
+API [documentation](https://github.com/prescottbreeden/de-formed-validations-node/wiki/Docs).
 
 ## Examples
 
